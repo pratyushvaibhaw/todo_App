@@ -1,5 +1,5 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app/Boxes/boxes.dart';
 import 'package:todo_app/widgets/add_button.dart';
@@ -8,7 +8,6 @@ import 'package:todo_app/res/constant.dart';
 import 'package:todo_app/utils/show_dialog.dart';
 import 'package:todo_app/utils/textStyle.dart';
 import 'package:todo_app/widgets/noTodo.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class ToDoPage extends StatefulWidget {
   const ToDoPage({super.key});
@@ -19,25 +18,36 @@ class ToDoPage extends StatefulWidget {
 
 class _ToDoPageState extends State<ToDoPage> {
   final titleController = TextEditingController();
+  final _scrollController = ScrollController(); 
+  bool _isAppBarVisible = true; 
+  bool _isScrollingDown = true; 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        if (_isScrollingDown) {
+          _isScrollingDown = false;
+          _isAppBarVisible = false;
+          setState(() {});
+        }
+      } else {
+        _isScrollingDown = true;
+        _isAppBarVisible = true;
+        setState(() {});
+      }
+    });
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 75,
-          actions: [
-            //button for addding a new todo
-            AddButton(
-              onTap: () {
-                addnewTodo();
-              },
-            ),
-          ],
-          title: Text(
-            'Your todos',
-            style: textStyle(35, Utils.white, FontWeight.bold),
-          ),
-        ),
+        appBar: (_isAppBarVisible) // put the check here
+            ? appBar() // method returning app bar
+            : null,
         backgroundColor: Utils.black,
         //valuelistenable builder fetches the change/updation which is notified by the Hive , thus we don't need update the state explicitly
         body: ValueListenableBuilder(
@@ -48,6 +58,8 @@ class _ToDoPageState extends State<ToDoPage> {
               return (box.length !=
                       0) // incase user has no task , then alternatively notdo widget is called
                   ? ListView.builder(
+                      controller: _scrollController, // finally attach the scroll controller to your scrollable widget
+                      physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       reverse: true,
                       itemCount: box.length,
@@ -63,7 +75,7 @@ class _ToDoPageState extends State<ToDoPage> {
                                 deleteTodo(data[index]),
                             child: ListTile(
                               splashColor: Utils.blue,
-                              //longpressing a tile will automatically delete it
+                              //longpressing a tile will open editing window
                               onLongPress: () {
                                 titleController.text = data[index].title;
                                 editTodo(index);
@@ -106,6 +118,30 @@ class _ToDoPageState extends State<ToDoPage> {
                       }))
                   : const NoTodo(); //notodo widget
             }),
+      ),
+    );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Utils.black,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(12),
+              bottomRight: Radius.circular(12))),
+      toolbarHeight: 75,
+      actions: [
+        //button for addding a new todo
+        AddButton(
+          onTap: () {
+            addnewTodo();
+          },
+        ),
+      ],
+      title: Text(
+        'Your todos',
+        style: textStyle(35, Utils.white, FontWeight.bold),
       ),
     );
   }
