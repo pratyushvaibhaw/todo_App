@@ -1,7 +1,7 @@
 //these functions are called when the user will add a new todo , a alert dialog  gets popped up
 
 import 'package:flutter/material.dart';
-import 'package:todo_app/res/colors.dart';
+import 'package:todo_app/res/constant.dart';
 import 'package:todo_app/utils/textStyle.dart';
 
 Future<void> addDialog(BuildContext context,
@@ -15,7 +15,7 @@ Future<void> addDialog(BuildContext context,
                   onPressed: onPressed,
                   child: Text(
                     'Add',
-                    style: textStyle(15, AppColor.black, FontWeight.bold),
+                    style: textStyle(15, Utils.black, FontWeight.bold),
                   )),
               TextButton(
                   onPressed: () {
@@ -24,20 +24,20 @@ Future<void> addDialog(BuildContext context,
                   },
                   child: Text(
                     'Cancel',
-                    style: textStyle(15, AppColor.black, FontWeight.bold),
+                    style: textStyle(15, Utils.black, FontWeight.bold),
                   )),
             ],
             title: Text(
               'Add a new ToDo',
-              style: textStyle(15, AppColor.pink, FontWeight.bold),
+              style: textStyle(15, Utils.pink, FontWeight.bold),
             ),
-            backgroundColor: AppColor.white,
+            backgroundColor: Utils.white,
             content: SingleChildScrollView(
               child: Column(
                 children: [
                   TextField(
                     maxLength: 25,
-                    style: textStyle(12, AppColor.black, FontWeight.w300),
+                    style: textStyle(12, Utils.black, FontWeight.w300),
                     controller: titleController,
                     decoration: InputDecoration(
                         hintText: 'enter a new todo',

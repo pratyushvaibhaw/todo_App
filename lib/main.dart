@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:todo_app/models/todo_model.dart';
 import 'package:todo_app/pages/splash_page.dart';
 import 'package:todo_app/pages/todo_page.dart';
-import 'package:todo_app/res/colors.dart';
+import 'package:todo_app/res/constant.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(color: AppColor.black, elevation: 0),
+        appBarTheme: AppBarTheme(color: Utils.black, elevation: 0),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

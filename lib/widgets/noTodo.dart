@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/res/colors.dart';
+import 'package:lottie/lottie.dart';
+import 'package:todo_app/res/constant.dart';
 import 'package:todo_app/utils/textStyle.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class NoTodo extends StatelessWidget {
   const NoTodo({
@@ -9,29 +11,33 @@ class NoTodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(
-              'assets/images/todo.png',
-            ),
-            Text(
-              'Add a new task',
-              style: textStyle(15, AppColor.white, FontWeight.w300),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 75,
-        ),
-        Text(
-          'To delete long press the corresponding tile',
-          style: textStyle(10, AppColor.white, FontWeight.w300),
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/todo.png',
+            height: 200,
+            width: 200,
+          ),
+          10.heightBox,
+          Text(
+            'No tasks added yet !!',
+            style: textStyle(20, Utils.white, FontWeight.w500),
+          ),
+          50.heightBox,
+          // Text(
+          //   'Tap the + button to add a new task',
+          //   style: textStyle(12, Utils.white, FontWeight.w300),
+          // ),
+          // 8.heightBox,
+          // Text(
+          //   'To delete a task, long press its tile',
+          //   style: textStyle(12, Utils.white, FontWeight.w300),
+          // ),
+        ],
+      ),
     );
   }
 }

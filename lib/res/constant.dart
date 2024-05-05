@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColor {
+class Utils {
   static Color pink = Colors.pinkAccent.shade400;
   static Color white = Colors.white;
   static Color black = Colors.black;

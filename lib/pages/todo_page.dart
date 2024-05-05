@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app/Boxes/boxes.dart';
-import 'package:todo_app/add_button.dart';
+import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/models/todo_model.dart';
-import 'package:todo_app/res/colors.dart';
+import 'package:todo_app/res/constant.dart';
 import 'package:todo_app/utils/show_dialog.dart';
 import 'package:todo_app/utils/textStyle.dart';
 import 'package:todo_app/widgets/noTodo.dart';
@@ -33,10 +33,10 @@ class _ToDoPageState extends State<ToDoPage> {
           ],
           title: Text(
             'Your todos',
-            style: textStyle(35, AppColor.white, FontWeight.bold),
+            style: textStyle(35, Utils.white, FontWeight.bold),
           ),
         ),
-        backgroundColor: AppColor.black,
+        backgroundColor: Utils.black,
         //valuelistenable builder fetches the change/updation which is notified by the Hive , thus we don't need update the state explicitly
         body: ValueListenableBuilder(
             valueListenable: Boxes.getData().listenable(),
@@ -56,7 +56,7 @@ class _ToDoPageState extends State<ToDoPage> {
                               horizontal: 4, vertical: 2),
                           height: 90,
                           child: ListTile(
-                            splashColor: AppColor.blue,
+                            splashColor: Utils.blue,
                             //longpressing a tile will automatically delete it
                             onLongPress: () => deleteTodo(data[index]),
                             trailing: SizedBox(
@@ -69,12 +69,12 @@ class _ToDoPageState extends State<ToDoPage> {
                                 child: CircleAvatar(
                                   // if the task is undone it is white , gets marked for done on tapping
                                   backgroundColor: (data[index].isCompleted)
-                                      ? AppColor.green
-                                      : AppColor.white,
+                                      ? Utils.green
+                                      : Utils.white,
                                   child: (data[index].isCompleted)
                                       ? Icon(
                                           Icons.done_sharp,
-                                          color: AppColor.white,
+                                          color: Utils.white,
                                           size: 18,
                                           weight: 5,
                                         )
@@ -84,11 +84,11 @@ class _ToDoPageState extends State<ToDoPage> {
                             ),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
-                            tileColor: AppColor.pink,
+                            tileColor: Utils.pink,
                             title: Text(
                               data[index].title,
-                              style: textStyle(
-                                  15, AppColor.white, FontWeight.bold),
+                              style:
+                                  textStyle(15, Utils.white, FontWeight.bold),
                             ),
                           ),
                         );
@@ -102,12 +102,22 @@ class _ToDoPageState extends State<ToDoPage> {
   // funtion to add data , calls the addDialog
   addnewTodo() {
     addDialog(context, titleController, () {
-      final data = TodoModel(title: titleController.text);
-      final box = Boxes.getData(); //Boxes object
-      box.add(data); //adding data to box
-      debugPrint(box.toString());
-      titleController.clear();
-      Navigator.pop(context);
+      if (titleController.text.isNotEmpty) {
+        final data = TodoModel(title: titleController.text);
+        final box = Boxes.getData(); //Boxes object
+        box.add(data); //adding data to box
+        debugPrint(box.toString());
+        titleController.clear();
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Utils.pink,
+            duration: const Duration(seconds: 2),
+            content: Text(
+              'Please enter a task',
+              style: textStyle(15, Utils.white, FontWeight.bold),
+            )));
+      }
     });
   }
 
