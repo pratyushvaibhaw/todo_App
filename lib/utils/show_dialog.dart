@@ -5,7 +5,7 @@ import 'package:todo_app/res/constant.dart';
 import 'package:todo_app/utils/textStyle.dart';
 
 Future<void> addDialog(BuildContext context,
-    TextEditingController titleController, VoidCallback onPressed) {
+    TextEditingController titleController, VoidCallback onPressed,bool isNew) {
   return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -14,7 +14,7 @@ Future<void> addDialog(BuildContext context,
               TextButton(
                   onPressed: onPressed,
                   child: Text(
-                    'Add',
+                  (isNew)?  'Add':'Save',
                     style: textStyle(15, Utils.black, FontWeight.bold),
                   )),
               TextButton(

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app/Boxes/boxes.dart';
@@ -7,6 +8,7 @@ import 'package:todo_app/res/constant.dart';
 import 'package:todo_app/utils/show_dialog.dart';
 import 'package:todo_app/utils/textStyle.dart';
 import 'package:todo_app/widgets/noTodo.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class ToDoPage extends StatefulWidget {
   const ToDoPage({super.key});
@@ -55,40 +57,49 @@ class _ToDoPageState extends State<ToDoPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 2),
                           height: 90,
-                          child: ListTile(
-                            splashColor: Utils.blue,
-                            //longpressing a tile will automatically delete it
-                            onLongPress: () => deleteTodo(data[index]),
-                            trailing: SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: GestureDetector(
-                                onTap: () {
-                                  markDone(data[index]);
-                                },
-                                child: CircleAvatar(
-                                  // if the task is undone it is white , gets marked for done on tapping
-                                  backgroundColor: (data[index].isCompleted)
-                                      ? Utils.green
-                                      : Utils.white,
-                                  child: (data[index].isCompleted)
-                                      ? Icon(
-                                          Icons.done_sharp,
-                                          color: Utils.white,
-                                          size: 18,
-                                          weight: 5,
-                                        )
-                                      : Container(),
+                          child: GestureDetector(
+                            onDoubleTap: () => editTodo(index),
+                            onHorizontalDragStart: (details) =>
+                                deleteTodo(data[index]),
+                            child: ListTile(
+                              splashColor: Utils.blue,
+                              //longpressing a tile will automatically delete it
+                              onLongPress: () {
+                                titleController.text = data[index].title;
+                                editTodo(index);
+                              },
+
+                              trailing: SizedBox(
+                                height: 17,
+                                width: 17,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    markDone(data[index]);
+                                  },
+                                  child: CircleAvatar(
+                                    // if the task is undone it is white , gets marked for done on tapping
+                                    backgroundColor: (data[index].isCompleted)
+                                        ? Utils.green
+                                        : Utils.white,
+                                    child: (data[index].isCompleted)
+                                        ? Icon(
+                                            Icons.done_sharp,
+                                            color: Utils.white,
+                                            size: 15,
+                                            weight: 20,
+                                          )
+                                        : Container(),
+                                  ),
                                 ),
                               ),
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            tileColor: Utils.pink,
-                            title: Text(
-                              data[index].title,
-                              style:
-                                  textStyle(15, Utils.white, FontWeight.bold),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              tileColor: Utils.pink,
+                              title: Text(
+                                data[index].title,
+                                style:
+                                    textStyle(15, Utils.white, FontWeight.bold),
+                              ),
                             ),
                           ),
                         );
@@ -118,7 +129,7 @@ class _ToDoPageState extends State<ToDoPage> {
               style: textStyle(15, Utils.white, FontWeight.bold),
             )));
       }
-    });
+    }, true);
   }
 
   //deleting the selected todo
@@ -130,5 +141,19 @@ class _ToDoPageState extends State<ToDoPage> {
   void markDone(TodoModel todoModel) {
     todoModel.isCompleted = !todoModel.isCompleted;
     todoModel.save();
+  }
+
+  //editing the already created todo
+  void editTodo(
+    int index,
+  ) {
+    addDialog(context, titleController, () {
+      final box = Boxes.getData();
+      final data = TodoModel(title: titleController.text);
+      box.putAt(index, data);
+      titleController.clear();
+      debugPrint(box.toString());
+      Navigator.pop(context);
+    }, false);
   }
 }
