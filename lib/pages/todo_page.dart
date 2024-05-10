@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app/Boxes/boxes.dart';
 import 'package:todo_app/widgets/add_button.dart';
@@ -18,9 +19,9 @@ class ToDoPage extends StatefulWidget {
 
 class _ToDoPageState extends State<ToDoPage> {
   final titleController = TextEditingController();
-  final _scrollController = ScrollController(); 
-  bool _isAppBarVisible = true; 
-  bool _isScrollingDown = true; 
+  final _scrollController = ScrollController();
+  bool _isAppBarVisible = true;
+  bool _isScrollingDown = true;
   @override
   void dispose() {
     _scrollController.dispose();
@@ -58,7 +59,8 @@ class _ToDoPageState extends State<ToDoPage> {
               return (box.length !=
                       0) // incase user has no task , then alternatively notdo widget is called
                   ? ListView.builder(
-                      controller: _scrollController, // finally attach the scroll controller to your scrollable widget
+                      controller:
+                          _scrollController, // finally attach the scroll controller to your scrollable widget
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       reverse: true,
@@ -68,11 +70,9 @@ class _ToDoPageState extends State<ToDoPage> {
                           margin: const EdgeInsets.all(2),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 2),
-                          height: 90,
+                          // height: 90,
                           child: GestureDetector(
-                            onDoubleTap: () => editTodo(index),
-                            onHorizontalDragStart: (details) =>
-                                deleteTodo(data[index]),
+                            onDoubleTap: () => deleteTodo(data[index]),
                             child: ListTile(
                               splashColor: Utils.blue,
                               //longpressing a tile will open editing window
@@ -104,8 +104,12 @@ class _ToDoPageState extends State<ToDoPage> {
                                   ),
                                 ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(20),
+                                      bottomLeft: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(6))),
                               tileColor: Utils.pink,
                               title: Text(
                                 data[index].title,

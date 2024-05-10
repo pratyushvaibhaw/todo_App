@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Utils {
   static Color pink = Colors.pinkAccent.shade400;
+  static Color yellow = Colors.yellowAccent.shade400;
   static Color white = Colors.white;
   static Color black = Colors.black;
   static Color blue = Colors.blueAccent.shade200;

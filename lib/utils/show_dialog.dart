@@ -5,7 +5,7 @@ import 'package:todo_app/res/constant.dart';
 import 'package:todo_app/utils/textStyle.dart';
 
 Future<void> addDialog(BuildContext context,
-    TextEditingController titleController, VoidCallback onPressed,bool isNew) {
+    TextEditingController titleController, VoidCallback onPressed, bool isNew) {
   return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -14,7 +14,7 @@ Future<void> addDialog(BuildContext context,
               TextButton(
                   onPressed: onPressed,
                   child: Text(
-                  (isNew)?  'Add':'Save',
+                    (isNew) ? 'Add' : 'Save',
                     style: textStyle(15, Utils.black, FontWeight.bold),
                   )),
               TextButton(
@@ -33,18 +33,17 @@ Future<void> addDialog(BuildContext context,
             ),
             backgroundColor: Utils.white,
             content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextField(
-                    maxLength: 25,
-                    style: textStyle(12, Utils.black, FontWeight.w300),
-                    controller: titleController,
-                    decoration: InputDecoration(
-                        hintText: 'enter a new todo',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12))),
-                  )
-                ],
+              scrollDirection: Axis.vertical,
+              child: TextField(
+                maxLength: null,
+                maxLines: null,
+                textInputAction: TextInputAction.newline,
+                style: textStyle(12, Utils.black, FontWeight.w300),
+                controller: titleController,
+                decoration: InputDecoration(
+                    hintText: 'enter a new todo',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12))),
               ),
             ),
           ));
