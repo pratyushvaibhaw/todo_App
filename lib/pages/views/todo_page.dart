@@ -5,7 +5,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app/Boxes/boxes.dart';
 import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/models/todo_model.dart';
-import 'package:todo_app/res/constant.dart';
+import 'package:todo_app/utils/constant.dart';
 import 'package:todo_app/utils/show_dialog.dart';
 import 'package:todo_app/utils/textStyle.dart';
 import 'package:todo_app/widgets/noTodo.dart';

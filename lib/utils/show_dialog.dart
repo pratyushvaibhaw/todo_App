@@ -1,7 +1,7 @@
 //these functions are called when the user will add a new todo , a alert dialog  gets popped up
 
 import 'package:flutter/material.dart';
-import 'package:todo_app/res/constant.dart';
+import 'package:todo_app/utils/constant.dart';
 import 'package:todo_app/utils/textStyle.dart';
 
 Future<void> addDialog(BuildContext context,

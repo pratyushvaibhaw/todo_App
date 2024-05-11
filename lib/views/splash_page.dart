@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/res/constant.dart';
+import 'package:todo_app/utils/constant.dart';
 import 'package:todo_app/utils/textStyle.dart';
 import 'package:todo_app/services/splash_services.dart';
 

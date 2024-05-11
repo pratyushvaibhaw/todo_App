@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/res/constant.dart';
+import 'package:todo_app/utils/constant.dart';
 import 'package:todo_app/utils/textStyle.dart';
 import 'package:velocity_x/velocity_x.dart';
 
